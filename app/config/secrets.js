@@ -105,6 +105,10 @@ module.exports = {
     apiKey: process.env.CLOCKWORK_KEY || '9ffb267f88df55762f74ba2f517a66dc8bedac5a'
   },
 
+  googleplaces: {
+    apiKey: process.env.GOOGLEPLACES_KEY || 'AIzaSyCH4tYttvZVaqclr8WmEOoqN7fh6_94yiE'
+  },
+
   stripe: {
     secretKey: process.env.STRIPE_SKEY || 'sk_test_BQokikJOvBiI2HlWgH4olfQ2',
     publishableKey: process.env.STRIPE_PKEY || 'pk_test_6pRNASCoBOKtIshFeQd4XMUh'

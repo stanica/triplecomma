@@ -151,6 +151,8 @@ app.post('/api/bitgo', apiController.postBitGo);
 app.get('/api/bitcore', apiController.getBitcore);
 app.post('/api/bitcore', apiController.postBitcore);
 
+app.get('/api/places', apiController.getGooglePlaces);
+
 /**
  * OAuth authentication routes. (Sign in)
  */

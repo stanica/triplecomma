@@ -890,3 +890,37 @@ exports.postBitcore = function(req, res, next) {
     return next(e);
   }
 };
+
+/**
+* GET Google Places
+*/
+exports.getGooglePlaces = function(req, res, next) {
+
+    var PlaceSearch = require("googleplaces//lib/PlaceSearch.js");
+    var PlaceDetailsRequest = require("googleplaces/lib/PlaceDetailsRequest.js");
+
+    var placeSearch = new PlaceSearch(secrets.googleplaces.apiKey, "json");
+    var placeDetailsRequest = new PlaceDetailsRequest(secrets.googleplaces.apiKey, "json");
+
+
+
+    var parameters = {
+      location: [req.param('lng'), req.param('lat')],
+      radius: 100
+    };
+
+    placeSearch(parameters, function (error, response) {
+        placeDetailsRequest({reference: response.results[1].reference}, function (error, response) {
+          res.status('api/places').send(response);
+        });
+    });
+
+    
+};
+
+
+
+
+
+
+
