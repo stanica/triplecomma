@@ -57,8 +57,9 @@ module.exports = {
   },
 
   instagram: {
-    clientID: process.env.INSTAGRAM_ID || '9f5c39ab236a48e0aec354acb77eee9b',
-    clientSecret: process.env.INSTAGRAM_SECRET || '5920619aafe842128673e793a1c40028',
+	accessToken: '34408716.1677ed0.bbc38d94fdff422387e553aa5b1706c3',
+    clientID: process.env.INSTAGRAM_ID || '0721eb1d40f546a7a5e9ba2a994746ae',
+    clientSecret: process.env.INSTAGRAM_SECRET || '7092d26c6cbf4d90b56bd70b210a8324',
     callbackURL: '/auth/instagram/callback',
     passReqToCallback: true
   },
@@ -103,6 +104,10 @@ module.exports = {
 
   clockwork: {
     apiKey: process.env.CLOCKWORK_KEY || '9ffb267f88df55762f74ba2f517a66dc8bedac5a'
+  },
+
+  googleplaces: {
+    apiKey: process.env.GOOGLEPLACES_KEY || 'AIzaSyCH4tYttvZVaqclr8WmEOoqN7fh6_94yiE'
   },
 
   stripe: {
