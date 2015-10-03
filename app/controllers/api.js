@@ -287,8 +287,22 @@ exports.getLastfm = function(req, res, next) {
  * Twiter API example.
  */
 exports.getTwitter = function(req, res, next) {
+  //get data from request
+  var data = {
+    "cntower" : "43.642703,-79.387083",
+    "unionstation" : "43.645398,-79.380817",
+    "harbourfront" : "43.639137,-79.382764",
+    "mec" : "43.646194,-79.393380"
+  };
+
+  // format of the response
+  reply = {
+    "place" : 2,
+    "raw" : {}
+  };
+
+  // pull module and authentication
   var Twitter = require('twitter');
- 
   var token = _.find(req.user.tokens, { kind: 'twitter' });
   var client = new Twitter({
     consumer_key: secrets.twitter.consumerKey,
@@ -296,14 +310,48 @@ exports.getTwitter = function(req, res, next) {
     access_token_key: token.accessToken,
     access_token_secret: token.tokenSecret
   });
-   
-  var params = {
-                q: 'node.js'
-              };
-  client.get('search/tweets', params, function(error, tweets, response){
-    if (!error) {
-      res.json(tweets);
-    }
+
+  
+  async.each(Object.keys(data), function (key, callback) {
+    reply[key] = 0;
+    //search by name
+      var params = {
+                    q: key,
+                    count: 100,
+                    geocode: data[key] + ",.1km"
+                  };
+      client.get('search/tweets', params, function(error, tweets, response){
+        if (!error) {
+          reply[key] += tweets["statuses"].length;
+          console.log(key + " : " + tweets["statuses"].length);
+
+          reply["raw"][key] = tweets;
+          
+
+
+          //search by geolocation
+          // var params = {
+          //               q: "",
+          //               geocode: data[key] + ",.1km",
+          //               count: 100
+          //             };
+          // client.get('search/tweets', params, function(error, tweets, response){
+          //   if (!error) {
+          //     reply[key] += tweets["statuses"].length;
+          //     console.log(key + " : " + tweets["statuses"].length);
+               callback();
+          //   }
+          // });
+
+
+
+        }
+      });
+
+      
+
+  }, function(err) {
+    res.send(reply);
   });
 };
 
