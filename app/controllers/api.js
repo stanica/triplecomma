@@ -573,14 +573,19 @@ exports.getInstagram = function(req, res, next) {
         done(err, medias);
       });
     }
+	mediaSearch: function(done){
+		ig.media_search(43.656025, -79.3802567, function(err, medias, remaining, limit){
+			done(err, medias);
+		})
+	}
   }, function(err, results) {
     if (err) return next(err);
     res.render('api/instagram', {
       title: 'Instagram API',
       usernames: results.searchByUsername,
       userById: results.searchByUserId,
-      popularImages: results.popularImages,
-      myRecentMedia: results.myRecentMedia
+      popularImages: results.mediaSearch,
+      myRecentMedia: results.mediaSearch
     });
   });
 };
