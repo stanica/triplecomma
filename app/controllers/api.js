@@ -50,30 +50,23 @@ exports.getFoursquare = function(req, res, next) {
   foursquare = require('node-foursquare')({ secrets: secrets.foursquare });
 
   var token = _.find(req.user.tokens, { kind: 'foursquare' });
+
+  var lat = req.param('lat');
+  var lng = req.param('lng');
+
   async.parallel({
     trendingVenues: function(callback) {
-      foursquare.Venues.getTrending('40.7222756', '-74.0022724', { limit: 50 }, token.accessToken, function(err, results) {
+      foursquare.Venues.getTrending(lat, lng, { radius: 250 }, token.accessToken, function(err, results) {
         callback(err, results);
       });
-    },
-    venueDetail: function(callback) {
-      foursquare.Venues.getVenue('49da74aef964a5208b5e1fe3', token.accessToken, function(err, results) {
-        callback(err, results);
-      });
-    },
-    userCheckins: function(callback) {
-      foursquare.Users.getCheckins('self', null, token.accessToken, function(err, results) {
-        callback(err, results);
-      });
-    }
+     }
   },
   function(err, results) {
     if (err) return next(err);
-    res.render('api/foursquare', {
+
+    res.status('api/foursquare').send({
       title: 'Foursquare API',
-      trendingVenues: results.trendingVenues,
-      venueDetail: results.venueDetail,
-      userCheckins: results.userCheckins
+      trendingVenues: results.trendingVenues.venues[0].hereNow
     });
   });
 };
