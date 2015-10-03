@@ -282,6 +282,10 @@ exports.getLastfm = function(req, res, next) {
   });
 };
 
+exports.getHeat = function(req, res, next) {
+  res.render('api/heat');
+}
+
 /**
  * GET /api/twitter
  * Twiter API example.
@@ -289,10 +293,10 @@ exports.getLastfm = function(req, res, next) {
 exports.getTwitter = function(req, res, next) {
   //get data from request
   var data = {
-    "cntower" : "43.642703,-79.387083",
-    "unionstation" : "43.645398,-79.380817",
-    "harbourfront" : "43.639137,-79.382764",
-    "mec" : "43.646194,-79.393380"
+    "cntower" : "43.642703,-79.387083"//,
+    //"unionstation" : "43.645398,-79.380817",
+    //"harbourfront" : "43.639137,-79.382764",
+    //"mec" : "43.646194,-79.393380"
   };
 
   // format of the response
@@ -300,6 +304,8 @@ exports.getTwitter = function(req, res, next) {
     "place" : 2,
     "raw" : {}
   };
+
+  heatmapData = {};
 
   // pull module and authentication
   var Twitter = require('twitter');
@@ -318,14 +324,14 @@ exports.getTwitter = function(req, res, next) {
       var params = {
                     q: key,
                     count: 100,
-                    geocode: data[key] + ",.1km"
+                    geocode: data[key] + ",1km"
                   };
       client.get('search/tweets', params, function(error, tweets, response){
         if (!error) {
-          reply[key] += tweets["statuses"].length;
-          console.log(key + " : " + tweets["statuses"].length);
-
-          reply["raw"][key] = tweets;
+          //counting code
+          //reply[key] += tweets["statuses"].length;
+          //console.log(key + " : " + tweets["statuses"].length);
+          //reply["raw"][key] = tweets;
           
 
 
