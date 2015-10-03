@@ -139,7 +139,7 @@ app.get('/api/twitter', passportConf.isAuthenticated, passportConf.isAuthorized,
 app.get('/api/venmo', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getVenmo);
 app.post('/api/venmo', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.postVenmo);
 app.get('/api/linkedin', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getLinkedin);
-app.get('/api/instagram', passportConf.isAuthenticated, passportConf.isAuthorized, apiController.getInstagram);
+app.get('/api/instagram', apiController.getInstagram);
 app.get('/api/yahoo', apiController.getYahoo);
 app.get('/api/paypal', apiController.getPayPal);
 app.get('/api/paypal/success', apiController.getPayPalSuccess);
