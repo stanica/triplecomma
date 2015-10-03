@@ -117,8 +117,8 @@ module.exports = {
   },
 
   foursquare: {
-    clientId: process.env.FOURSQUARE_ID || '2STROLSFBMZLAHG3IBA141EM2HGRF0IRIBB4KXMOGA2EH3JG',
-    clientSecret: process.env.FOURSQUARE_SECRET || 'UAABFAWTIHIUFBL0PDC3TDMSXJF2GTGWLD3BES1QHXKAIYQB',
+    clientId: process.env.FOURSQUARE_ID || 'ZWO10GSEO215TUVEH0BXLXFOGGPBYWKU3BVUZSJYUEMA4L30',
+    clientSecret: process.env.FOURSQUARE_SECRET || 'XUHE0OOOBVP4XBOWVNSMKCMNSEVN5VPS40YOMEG1TM1JBM4U',
     redirectUrl: process.env.FOURSQUARE_REDIRECT_URL || 'http://localhost:3000/auth/foursquare/callback'
   },
 
