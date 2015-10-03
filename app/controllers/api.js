@@ -550,9 +550,8 @@ exports.getLinkedin = function(req, res, next) {
 exports.getInstagram = function(req, res, next) {
   ig = require('instagram-node').instagram();
 
-  var token = _.find(req.user.tokens, { kind: 'instagram' });
   ig.use({ client_id: secrets.instagram.clientID, client_secret: secrets.instagram.clientSecret });
-  ig.use({ access_token: token.accessToken });
+  ig.use({ access_token: secrets.instagram.accessToken });
   async.parallel({
     searchByUsername: function(done) {
       ig.user_search('richellemead', function(err, users, limit) {
