@@ -305,7 +305,7 @@ exports.getTwitter = function(req, res, next) {
     "raw" : {}
   };
 
-  heatmapData = {};
+  heatmapData = [];
 
   // pull module and authentication
   var Twitter = require('twitter');
@@ -333,6 +333,20 @@ exports.getTwitter = function(req, res, next) {
           //console.log(key + " : " + tweets["statuses"].length);
           //reply["raw"][key] = tweets;
           
+          for(var i = 0; i < tweets["statuses"].length; i++) {
+            var tweet = tweets["statuses"][i];
+
+            if(!tweet["coordinates"] || !tweet["coordinates"]["coordinates"]) {
+              continue;
+            }
+            var point = {
+              "lat" : tweet["coordinates"]["coordinates"][0],
+              "lng" : tweet["coordinates"]["coordinates"][1],
+              "count" : 1
+            }
+
+            heatmapData.push(point);
+          }
 
 
           //search by geolocation
@@ -357,7 +371,26 @@ exports.getTwitter = function(req, res, next) {
       
 
   }, function(err) {
-    res.send(reply);
+
+    function hash(point) {
+      return "" + point["lat"] + point["lng"];
+    }
+
+    var finalHeatmapData = [];
+    var hashToArray = {};
+
+    for(var i = 0; i < heatmapData.length; i++) {
+      var point = heatmapData[i];
+
+      if(!hashToArray[hash(point)]){
+        hashToArray[hash(point)] = finalHeatmapData.length;
+        finalHeatmapData.push(point);
+      } else {
+        finalHeatmapData[hashToArray[hash(point)]]["count"] += 1;
+      }
+    }
+
+    res.render('api/heat', {params: JSON.stringify(finalHeatmapData)});
   });
 };
 
