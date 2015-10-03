@@ -603,16 +603,40 @@ exports.getLinkedin = function(req, res, next) {
  */
 exports.getInstagram = function(req, res, next) {
   var obj = [];
+  var count = 0;
+  var intersections = [{lat: 43.64945, lon: -79.37141},
+		{lat: 43.6504606, lon: -79.3719239},
+		{lat: 43.6515337, lon: -79.37236}, 
+		{lat: 43.6527176, lon: -79.372824},             
+		{lat: 43.653704, lon: -79.373238},
+		{lat: 43.655357, lon: -79.373862},
+		{lat: 43.657052, lon: -79.374531}, 
+		{lat: 43.660432, lon: -79.3758537}, 
+		{lat: 43.66242, lon: -79.3767079}, 
+		{lat: 43.6662894, lon: -79.378325},
+		{lat: 43.668869, lon: -79.3794158}];
   ig = require('instagram-node').instagram();
 
   ig.use({ client_id: secrets.instagram.clientID, client_secret: secrets.instagram.clientSecret });
   ig.use({ access_token: secrets.instagram.accessToken });
-  async.parallel({
-  	mediaSearch: function(done){
-  		ig.media_search(43.656025, -79.3802567, function(err, medias, remaining, limit){
-  			done(err, medias);
-  		})
-  	}
+
+  async.each(intersections,function(item, callback){
+  		ig.media_search(item.lat, item.lon, {distance: 100},function(err, medias, remaining, limit){
+			for (x=0; x<medias.length; x++){
+				obj.push([medias[x].location.latitude, medias[x].location.longitude]);
+			}
+			count++;
+			console.log(count);
+			callback();
+  		});
+	},
+  function(err){
+	 res.status('api/instagram').send(
+		obj
+	);
+  });
+}
+  	/*}
   }, function(err, results) {
     if (err) return next(err);
 	
