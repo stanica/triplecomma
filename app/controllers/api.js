@@ -276,7 +276,14 @@ exports.getLastfm = function(req, res, next) {
 };
 
 exports.getHeat = function(req, res, next) {
-  res.render('api/heat');
+  var lat = req.param('lat');
+  var lng = req.param('lng');
+
+  var params = {
+    lat: lat,
+    lng: lng
+  };
+  res.render('api/heat', {params: params});
 }
 
 /**
@@ -619,12 +626,12 @@ exports.getInstagram = function(req, res, next) {
       ig.user_self_media_recent(function(err, medias, pagination, limit) {
         done(err, medias);
       });
-    }
-	mediaSearch: function(done){
-		ig.media_search(43.656025, -79.3802567, function(err, medias, remaining, limit){
-			done(err, medias);
-		})
-	}
+    },
+  	mediaSearch: function(done){
+  		ig.media_search(43.656025, -79.3802567, function(err, medias, remaining, limit){
+  			done(err, medias);
+  		})
+  	}
   }, function(err, results) {
     if (err) return next(err);
     res.render('api/instagram', {

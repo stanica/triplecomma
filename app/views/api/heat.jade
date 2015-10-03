@@ -1,1 +1,20 @@
-include heat.html
+doctype html
+html
+  head
+    link(rel='stylesheet', href='http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css')
+    script(src='http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js')
+    title Hi there
+  body
+    | This is a page
+    | a simple page
+    #map(style='height: 180px')
+  script.
+    var map = L.map('map').setView([#{params.lat}, #{params.lng}], 13);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'jackthesong.cifbihsak2jaxrylx9tuchle7',
+    accessToken: 'pk.eyJ1IjoiamFja3RoZXNvbmciLCJhIjoiY2lmYmlodGlmMmo2bnN1a242NnhpcWM3bSJ9.RMpCpZBhrkK62oEZszcFwg'
+    }).addTo(map);
+
+
