@@ -57,8 +57,9 @@ module.exports = {
   },
 
   instagram: {
-    clientID: process.env.INSTAGRAM_ID || '9f5c39ab236a48e0aec354acb77eee9b',
-    clientSecret: process.env.INSTAGRAM_SECRET || '5920619aafe842128673e793a1c40028',
+	accessToken: '34408716.1677ed0.bbc38d94fdff422387e553aa5b1706c3',
+    clientID: process.env.INSTAGRAM_ID || '0721eb1d40f546a7a5e9ba2a994746ae',
+    clientSecret: process.env.INSTAGRAM_SECRET || '7092d26c6cbf4d90b56bd70b210a8324',
     callbackURL: '/auth/instagram/callback',
     passReqToCallback: true
   },
@@ -121,8 +122,8 @@ module.exports = {
   },
 
   foursquare: {
-    clientId: process.env.FOURSQUARE_ID || '2STROLSFBMZLAHG3IBA141EM2HGRF0IRIBB4KXMOGA2EH3JG',
-    clientSecret: process.env.FOURSQUARE_SECRET || 'UAABFAWTIHIUFBL0PDC3TDMSXJF2GTGWLD3BES1QHXKAIYQB',
+    clientId: process.env.FOURSQUARE_ID || 'ZWO10GSEO215TUVEH0BXLXFOGGPBYWKU3BVUZSJYUEMA4L30',
+    clientSecret: process.env.FOURSQUARE_SECRET || 'XUHE0OOOBVP4XBOWVNSMKCMNSEVN5VPS40YOMEG1TM1JBM4U',
     redirectUrl: process.env.FOURSQUARE_REDIRECT_URL || 'http://localhost:3000/auth/foursquare/callback'
   },
 

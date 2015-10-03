@@ -287,46 +287,71 @@ exports.getLastfm = function(req, res, next) {
  * Twiter API example.
  */
 exports.getTwitter = function(req, res, next) {
-  Twit = require('twit');
+  //get data from request
+  var data = {
+    "cntower" : "43.642703,-79.387083",
+    "unionstation" : "43.645398,-79.380817",
+    "harbourfront" : "43.639137,-79.382764",
+    "mec" : "43.646194,-79.393380"
+  };
 
+  // format of the response
+  reply = {
+    "place" : 2,
+    "raw" : {}
+  };
+
+  // pull module and authentication
+  var Twitter = require('twitter');
   var token = _.find(req.user.tokens, { kind: 'twitter' });
-  var T = new Twit({
+  var client = new Twitter({
     consumer_key: secrets.twitter.consumerKey,
     consumer_secret: secrets.twitter.consumerSecret,
-    access_token: token.accessToken,
+    access_token_key: token.accessToken,
     access_token_secret: token.tokenSecret
   });
-  T.get('search/tweets', { q: 'nodejs since:2013-01-01', geocode: '40.71448,-74.00598,5mi', count: 10 }, function(err, reply) {
-    if (err) return next(err);
-    res.render('api/twitter', {
-      title: 'Twitter API',
-      tweets: reply.statuses
-    });
-  });
-};
 
-/**
- * POST /api/twitter
- * Post a tweet.
- */
-exports.postTwitter = function(req, res, next) {
-  req.assert('tweet', 'Tweet cannot be empty.').notEmpty();
-  var errors = req.validationErrors();
-  if (errors) {
-    req.flash('errors', errors);
-    return res.redirect('/api/twitter');
-  }
-  var token = _.find(req.user.tokens, { kind: 'twitter' });
-  var T = new Twit({
-    consumer_key: secrets.twitter.consumerKey,
-    consumer_secret: secrets.twitter.consumerSecret,
-    access_token: token.accessToken,
-    access_token_secret: token.tokenSecret
-  });
-  T.post('statuses/update', { status: req.body.tweet }, function(err, data, response) {
-    if (err) return next(err);
-    req.flash('success', { msg: 'Tweet has been posted.'});
-    res.redirect('/api/twitter');
+  
+  async.each(Object.keys(data), function (key, callback) {
+    reply[key] = 0;
+    //search by name
+      var params = {
+                    q: key,
+                    count: 100,
+                    geocode: data[key] + ",.1km"
+                  };
+      client.get('search/tweets', params, function(error, tweets, response){
+        if (!error) {
+          reply[key] += tweets["statuses"].length;
+          console.log(key + " : " + tweets["statuses"].length);
+
+          reply["raw"][key] = tweets;
+          
+
+
+          //search by geolocation
+          // var params = {
+          //               q: "",
+          //               geocode: data[key] + ",.1km",
+          //               count: 100
+          //             };
+          // client.get('search/tweets', params, function(error, tweets, response){
+          //   if (!error) {
+          //     reply[key] += tweets["statuses"].length;
+          //     console.log(key + " : " + tweets["statuses"].length);
+               callback();
+          //   }
+          // });
+
+
+
+        }
+      });
+
+      
+
+  }, function(err) {
+    res.send(reply);
   });
 };
 
@@ -573,9 +598,8 @@ exports.getLinkedin = function(req, res, next) {
 exports.getInstagram = function(req, res, next) {
   ig = require('instagram-node').instagram();
 
-  var token = _.find(req.user.tokens, { kind: 'instagram' });
   ig.use({ client_id: secrets.instagram.clientID, client_secret: secrets.instagram.clientSecret });
-  ig.use({ access_token: token.accessToken });
+  ig.use({ access_token: secrets.instagram.accessToken });
   async.parallel({
     searchByUsername: function(done) {
       ig.user_search('richellemead', function(err, users, limit) {
@@ -597,14 +621,19 @@ exports.getInstagram = function(req, res, next) {
         done(err, medias);
       });
     }
+	mediaSearch: function(done){
+		ig.media_search(43.656025, -79.3802567, function(err, medias, remaining, limit){
+			done(err, medias);
+		})
+	}
   }, function(err, results) {
     if (err) return next(err);
     res.render('api/instagram', {
       title: 'Instagram API',
       usernames: results.searchByUsername,
       userById: results.searchByUserId,
-      popularImages: results.popularImages,
-      myRecentMedia: results.myRecentMedia
+      popularImages: results.mediaSearch,
+      myRecentMedia: results.mediaSearch
     });
   });
 };
