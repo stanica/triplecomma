@@ -292,20 +292,184 @@ exports.getHeat = function(req, res, next) {
  */
 exports.getTwitter = function(req, res, next) {
   //get data from request
-  var data = {
-    "cntower" : "43.642703,-79.387083"//,
-    //"unionstation" : "43.645398,-79.380817",
-    //"harbourfront" : "43.639137,-79.382764",
-    //"mec" : "43.646194,-79.393380"
-  };
-
-  // format of the response
-  reply = {
-    "place" : 2,
-    "raw" : {}
-  };
-
-  heatmapData = [];
+  var data = [
+    {lat: 43.64945,lon: -79.37141},
+{lat: 43.6504606,lon: -79.3719239},
+{lat: 43.6515337,lon: -79.37236},
+{lat: 43.6527176,lon: -79.372824},              
+{lat: 43.653704,lon: -79.373238},
+{lat: 43.655357,lon: -79.373862},
+{lat: 43.657052,lon: -79.374531},
+{lat: 43.660432,lon: -79.3758537},
+{lat: 43.66242,lon: -79.3767079},
+{lat: 43.6662894,lon: -79.378325},
+{lat: 43.668869,lon: -79.3794158},
+{lat: 43.6699892,lon: -79.3799226},
+{lat: 43.6715773,lon: -79.38052},
+{lat: 43.648513176,lon: -79.373833537},
+{lat: 43.6499164,lon: -79.374409},
+{lat: 43.651173,lon: -79.374925},
+{lat: 43.652441,lon: -79.375448},
+{lat: 43.65317,lon: -79.375754},
+{lat: 43.654817,lon: -79.376441},
+{lat: 43.656499,lon: -79.377127},
+{lat: 43.659858,lon: -79.378522},
+{lat: 43.661871,lon: -79.379335},
+{lat: 43.6657034,lon: -79.380928},
+{lat: 43.6710224,lon: -79.383123},
+{lat: 43.6506539,lon: -79.377248},
+{lat: 43.6519522,lon: -79.377756},
+{lat: 43.6526703,lon: -79.378066},
+{lat: 43.646846,lon: -79.376931},
+{lat: 43.6478484,lon: -79.377351},
+{lat: 43.6491624,lon: -79.377904},
+{lat: 43.650419,lon: -79.378436},
+{lat: 43.651697,lon: -79.378965},
+{lat: 43.6524209,lon: -79.379276},
+{lat: 43.654066,lon: -79.379957},
+{lat: 43.656326,lon: -79.380912},
+{lat: 43.6590897,lon: -79.382096},
+{lat: 43.6613687,lon: -79.383094},
+{lat: 43.6649351,lon: -79.384558},
+{lat: 43.670229,lon: -79.386767},
+{lat: 43.672879,lon: -79.387845},
+{lat: 43.6756028,lon: -79.38895},
+{lat: 43.6769762,lon: -79.389534},
+{lat: 43.6791392,lon: -79.390424},
+{lat: 43.6820226,lon: -79.391574},
+{lat: 43.688075,lon: -79.394098},
+{lat: 43.6982977,lon: -79.396601},
+{lat: 43.702508,lon: -79.397458},
+{lat: 43.7067501,lon: -79.398311},
+{lat: 43.709554,lon: -79.398943},
+{lat: 43.7118551,lon: -79.399437},
+{lat: 43.716605,lon: -79.400452},
+{lat: 43.7195544,lon: -79.40109},
+{lat: 43.721971,lon: -79.401557},
+{lat: 43.7251031,lon: -79.402193},
+{lat: 43.7278642,lon: -79.40293},
+{lat: 43.730913,lon: -79.403788},
+{lat: 43.7343677,lon: -79.404585},
+{lat: 43.645996,lon: -79.379115},
+{lat: 43.647345,lon: -79.379702},
+{lat: 43.648653,lon: -79.380268},
+{lat: 43.649876,lon: -79.380823},
+{lat: 43.6512244,lon: -79.381452},
+{lat: 43.65189,lon: -79.381698},
+{lat: 43.6529652,lon: -79.382631},
+{lat: 43.655721,lon: -79.383734},
+{lat: 43.658496,lon: -79.384865},
+{lat: 43.6608138,lon: -79.385857},
+{lat: 43.664366,lon: -79.387151},
+{lat: 43.669701,lon: -79.389468},
+{lat: 43.6466383,lon: -79.383007},
+{lat: 43.6479338,lon: -79.383531},
+{lat: 43.649196,lon: -79.384074},
+{lat: 43.6505005,lon: -79.38462},
+{lat: 43.645291,lon: -79.382476},
+{lat: 43.6464054,lon: -79.384076},
+{lat: 43.6476553,lon: -79.384788},
+{lat: 43.648857,lon: -79.38548},
+{lat: 43.6501396,lon: -79.38624},
+{lat: 43.650827,lon: -79.386628},
+{lat: 43.654812,lon: -79.388484},
+{lat: 43.656323,lon: -79.388959},
+{lat: 43.6598474,lon: -79.39049},
+{lat: 43.6636098,lon: -79.390626},
+{lat: 43.6659353,lon: -79.391879},
+{lat: 43.668685,lon: -79.394119},
+{lat: 43.7145838,lon: -79.359791},
+{lat: 43.713573,lon: -79.364752},
+{lat: 43.7125627,lon: -79.369606},
+{lat: 43.711056,lon: -79.377114},
+{lat: 43.7100093,lon: -79.382221},
+{lat: 43.7084166,lon: -79.390153},
+{lat: 43.7078669,lon: -79.39279},
+{lat: 43.7063458,lon: -79.400252},
+{lat: 43.7051068,lon: -79.406125},
+{lat: 43.7046104,lon: -79.408474},
+{lat: 43.7034761,lon: -79.41388},
+{lat: 43.7027131,lon: -79.417444},
+{lat: 43.7023611,lon: -79.419081},
+{lat: 43.7009757,lon: -79.425534},
+{lat: 43.6998248,lon: -79.430961},
+{lat: 43.698048,lon: -79.439379},
+{lat: 43.6972932,lon: -79.442789},
+{lat: 43.696242,lon: -79.447688},
+{lat: 43.695684,lon: -79.450293},
+{lat: 43.694985,lon: -79.453476},
+{lat: 43.672136,lon: -79.395624},
+{lat: 43.674705,lon: -79.396651},
+{lat: 43.67719,lon: -79.397579},
+{lat: 43.6795475,lon: -79.39855},
+{lat: 43.6843241,lon: -79.400495},
+{lat: 43.686624,lon: -79.401479},
+{lat: 43.690773,lon: -79.403027},
+{lat: 43.6937297,lon: -79.401852},
+{lat: 43.6978798,lon: -79.403231},
+{lat: 43.698761,lon: -79.406076},
+{lat: 43.710333,lon: -79.411119},
+{lat: 43.71696,lon: -79.413444},
+{lat: 43.7222401,lon: -79.415589},
+{lat: 43.7279,lon: -79.417894},
+{lat: 43.7332,lon: -79.41951},
+{lat: 43.7359103,lon: -79.4201},
+{lat: 43.7398627,lon: -79.421636},
+{lat: 43.744121,lon: -79.406724},
+{lat: 43.7615144,lon: -79.410903},
+{lat: 43.7692945,lon: -79.412931},
+{lat: 43.773798,lon: -79.414034},
+{lat: 43.7797703,lon: -79.415504},
+{lat: 43.7870804,lon: -79.417327},
+{lat: 43.7938145,lon: -79.418991},
+{lat: 43.798049,lon: -79.420064},
+{lat: 43.6745775,lon: -79.380161},
+{lat: 43.6883196,lon: -79.383542},
+{lat: 43.690374,lon: -79.383288},
+{lat: 43.6936038,lon: -79.3846212},
+{lat: 43.6982046,lon: -79.386448},
+{lat: 43.7003222,lon: -79.386937},
+{lat: 43.7043099,lon: -79.388524},
+{lat: 43.711129,lon: -79.391181},
+{lat: 43.7178824,lon: -79.394131},
+{lat: 43.7223099,lon: -79.395694},
+{lat: 43.726237038,lon: -79.396790564},
+{lat: 43.770604,lon: -79.186884},
+{lat: 43.7676558,lon: -79.189555},
+{lat: 43.7621101,lon: -79.1947327},
+{lat: 43.749649,lon: -79.205992},
+{lat: 43.7437557,lon: -79.211651},
+{lat: 43.738817,lon: -79.217042},
+{lat: 43.725113,lon: -79.232452},
+{lat: 43.721858,lon: -79.236215},
+{lat: 43.711111,lon: -79.248196},
+{lat: 43.7087694,lon: -79.249759},
+{lat: 43.703931,lon: -79.252775},
+{lat: 43.6930141,lon: -79.262326},
+{lat: 43.691469,lon: -79.264762},
+{lat: 43.6877698,lon: -79.270928},
+{lat: 43.6822709,lon: -79.279219},
+{lat: 43.6808074,lon: -79.284041},
+{lat: 43.6802604,lon: -79.2907},
+{lat: 43.678903,lon: -79.29801},
+{lat: 43.67695,lon: -79.304104},
+{lat: 43.67394,lon: -79.307902},
+{lat: 43.669951,lon: -79.311169},
+{lat: 43.718239,lon: -79.240372},
+{lat: 43.672219,lon: -79.384788},
+{lat: 43.653099,lon: -79.387585},
+{lat: 43.694104,lon: -79.366284},
+{lat: 43.666345,lon: -79.316558},
+{lat: 43.6967298,lon: -79.371732},
+{lat: 43.70096,lon: -79.373324},
+{lat: 43.7042575,lon: -79.374587},
+{lat: 43.7069178,lon: -79.375617},
+{lat: 43.6825716,lon: -79.39976},
+{lat: 43.6573374,lon: -79.356489},
+{lat: 43.659502,lon: -79.357445}
+  ];
+  
+  var result = [];
 
   // pull module and authentication
   var Twitter = require('twitter');
@@ -318,79 +482,45 @@ exports.getTwitter = function(req, res, next) {
   });
 
   
-  async.each(Object.keys(data), function (key, callback) {
-    reply[key] = 0;
+  async.each(data, function (datum, callback) {
     //search by name
-      var params = {
-                    q: key,
-                    count: 100,
-                    geocode: data[key] + ",1km"
-                  };
-      client.get('search/tweets', params, function(error, tweets, response){
-        if (!error) {
-          //counting code
-          //reply[key] += tweets["statuses"].length;
-          //console.log(key + " : " + tweets["statuses"].length);
-          //reply["raw"][key] = tweets;
-          
-          for(var i = 0; i < tweets["statuses"].length; i++) {
-            var tweet = tweets["statuses"][i];
+    var params = {
+                  q: "",
+                  count: 100,
+                  geocode: "" + datum["lat"] + "," + datum["lon"] + ",.5km"
+                };
 
-            if(!tweet["coordinates"] || !tweet["coordinates"]["coordinates"]) {
-              continue;
-            }
-            var point = {
-              "lat" : tweet["coordinates"]["coordinates"][0],
-              "lng" : tweet["coordinates"]["coordinates"][1],
-              "count" : 1
-            }
+                console.log(params);
 
-            heatmapData.push(point);
+    client.get('search/tweets', params, function(error, tweets, response){
+      if (!error) {
+        for(var i = 0; i < tweets["statuses"].length; i++) {
+          var tweet = tweets["statuses"][i];
+
+          if(!tweet["geo"] || !tweet["geo"]["coordinates"]) {
+            continue;
           }
 
+          var point = {
+            intersectionlat : datum["lat"],
+            intersectionlon : datum["lon"],
+            tweetlat : tweet["geo"]["coordinates"][0],
+            tweetlon : tweet["geo"]["coordinates"][1],
+            text : tweet["text"],
+            time : tweet["created_at"]
+          }
 
-          //search by geolocation
-          // var params = {
-          //               q: "",
-          //               geocode: data[key] + ",.1km",
-          //               count: 100
-          //             };
-          // client.get('search/tweets', params, function(error, tweets, response){
-          //   if (!error) {
-          //     reply[key] += tweets["statuses"].length;
-          //     console.log(key + " : " + tweets["statuses"].length);
-               callback();
-          //   }
-          // });
-
-
-
+          result.push(point);
         }
-      });
+
+        callback();
+      }
+    });
 
       
 
   }, function(err) {
-
-    function hash(point) {
-      return "" + point["lat"] + point["lng"];
-    }
-
-    var finalHeatmapData = [];
-    var hashToArray = {};
-
-    for(var i = 0; i < heatmapData.length; i++) {
-      var point = heatmapData[i];
-
-      if(!hashToArray[hash(point)]){
-        hashToArray[hash(point)] = finalHeatmapData.length;
-        finalHeatmapData.push(point);
-      } else {
-        finalHeatmapData[hashToArray[hash(point)]]["count"] += 1;
-      }
-    }
-
-    res.render('api/heat', {params: JSON.stringify(finalHeatmapData)});
+    res.send(result);
   });
 };
 
