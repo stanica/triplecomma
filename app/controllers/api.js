@@ -1092,6 +1092,9 @@ exports.postBitcore = function(req, res, next) {
 */
 exports.getGooglePlaces = function(req, res, next) {
 
+    var obj = [];
+    var ids= [];
+    var count = 0;
     var PlaceSearch = require("googleplaces//lib/PlaceSearch.js");
     var PlaceDetailsRequest = require("googleplaces/lib/PlaceDetailsRequest.js");
 
@@ -1105,11 +1108,72 @@ exports.getGooglePlaces = function(req, res, next) {
       radius: 100
     };
 
+/* 
     placeSearch(parameters, function (error, response) {
-        placeDetailsRequest({reference: response.results[1].reference}, function (error, response) {
-          res.status('api/places').send(response);
-        });
+        for(x=0; x<response.results.length; x++){
+          ids.push(response.results[x].reference)
+        }
+        console.log(ids)
+        //res.status('api/places').send(obj);          
     });
+*/   
+
+
+  async.each(intersections,function(item, callback){
+    var parameters2 = {location: [ item.lat.toString(), item.lon.toString()], radius:100};
+    //console.log(parameters2)
+    placeSearch(parameters2, function (error, response) {
+      //console.log(parameters2)
+      //console.log(response)
+      for(x=0; x<response.results.length; x++){
+        ids.push(response.results[x].reference);
+        //console.log(parameters)
+        //console.log(response)
+      }
+     // console.log(ids);
+    callback();
+    });
+  },  
+  function(err){
+
+     async.each(ids,function(item, callback){
+        placeDetailsRequest({reference: item}, function (error, response) {
+          //console.log(response.result.reviews.length)
+          var reviews = [];
+          for(var review in response.result.reviews){
+            reviews.push(response.result.reviews[review].text);
+
+          }
+          obj.push(response.result.geometry.location['lat'], response.result.geometry.location['lng'], response.result['name'], response.result['rating'], reviews);
+          count++;
+          //console.log(count);
+          callback();      
+        });      
+    },
+    function(err){
+     res.status('api/places').send(
+      obj
+    );
+    });    
+    
+  });  
+
+ /* 
+  console.log(ids2); 
+  async.each(ids,function(item, callback){
+      placeDetailsRequest({reference: item}, function (error, response) {
+        obj.push(response.result.geometry.location['lat'], response.result.geometry.location['lng'], response.result['name']);
+        count++;
+        //console.log(count);
+        callback();      
+      });      
+  },
+  function(err){
+   res.status('api/places').send(
+    obj
+  );
+  });    
+*/
 
     
 };
